@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +19,20 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    const emailAlreadyInUse = this.usersService.findByEmail(
+      createUserDto.email,
+    );
+
+    if (emailAlreadyInUse) {
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          error: 'Email already in use',
+        },
+        HttpStatus.CONFLICT,
+      );
+    }
+
     return this.usersService.create(createUserDto);
   }
 
