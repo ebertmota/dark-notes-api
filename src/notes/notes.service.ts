@@ -26,7 +26,7 @@ export class NotesService {
   }
 
   async findByUser(userId: string) {
-    return this.prisma.note.findFirst({
+    return this.prisma.note.findMany({
       where: {
         userId,
       },
