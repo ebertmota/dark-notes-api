@@ -30,7 +30,7 @@ export class NotesController {
     return this.notesService.findOne(id);
   }
 
-  @Get(':id')
+  @Get('user/:userId')
   findByUser(@Param('userId') userId: string) {
     return this.notesService.findByUser(userId);
   }
