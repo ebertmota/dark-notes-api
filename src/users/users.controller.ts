@@ -18,8 +18,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    const emailAlreadyInUse = this.usersService.findByEmail(
+  async create(@Body() createUserDto: CreateUserDto) {
+    const emailAlreadyInUse = await this.usersService.findByEmail(
       createUserDto.email,
     );
 
