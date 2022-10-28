@@ -46,6 +46,22 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
+  @Get('email/:email')
+  async findByEmail(@Param('email') email: string) {
+    const user = await this.usersService.findByEmail(email);
+    if (!user) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          type: 'UserNotFoundError',
+          error: 'User with provided email was not found',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return user;
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
